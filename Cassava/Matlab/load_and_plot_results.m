@@ -1,4 +1,4 @@
-leaf_type = 'leaflet';
+leaf_type = 'original';
 model_name={'svm','knn','discriminant','tree','inception'};
 nModels=length(model_name);
 models = model_name(1:nModels);

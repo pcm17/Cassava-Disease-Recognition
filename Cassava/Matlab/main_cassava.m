@@ -35,5 +35,6 @@ plot_results (nRuns,model_name,leaf_type,accuracy,color_shape);
 
 %% Extra stuff
 %%% Ensemble Tree Learner
+% Want to try this to see how it compares to non-ensemble learning methods
 %mdl = fitcensemble(tr_x,tr_y,'Method','AdaBoostM1','NumLearningCycles',150,'Learners',t,'CrossVal','on','KFold',kFolds);
 
