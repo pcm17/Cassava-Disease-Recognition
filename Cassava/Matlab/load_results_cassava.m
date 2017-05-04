@@ -1,5 +1,5 @@
-function [] = load_results_cassava (leaf_type)
-model_name={'discriminant','inception','svm','knn','tree'};
+function [] = load_results_cassava (leaf_type, model_name)
+
 nModels=length(model_name);
 
 nRuns=5;
@@ -22,7 +22,7 @@ scatter(reshape(x1,[(nRuns*nModels),1]),reshape(data,[(nRuns*nModels),1]),'ko');
 x_lims = linspace(1,nModels,nModels);
 xticks(x_lims);
 xticklabels(model_name);
-xlim([0,6]);
+xlim([0,nModels+1]);
 ylim([65,95]);
 xlabel('Model');
 ylabel('Classification Accuracy');

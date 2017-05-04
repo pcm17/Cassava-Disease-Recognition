@@ -2,14 +2,17 @@
 leaf_type = 'leaflet';
 [healthy, disease] = load_data_cassava(leaf_type);
 
+model_name={'inception','svm','knn','discriminant','tree'};
+load_results_cassava (leaf_type, model_name);
+
 svm = templateSVM('Standardize',1);
 kn = templateKNN('Standardize',1);
 nb = templateNaiveBayes('DistributionNames','kernel');
 dt = templateTree();
 disc = templateDiscriminant('DiscrimType','pseudoLinear');
 log = templateLinear();
-temp_name={svm,disc,kn,dt};
-model_name={'svm','discriminant','knn','tree'};
+temp_name={svm,kn,disc,dt};
+model_name={'svm','knn','discriminant','tree'};
 
 nModels=length(model_name);
 numFeats = 2048;
@@ -19,9 +22,9 @@ kFolds=3;
 acc = zeros(kFolds,1);
 accuracy = zeros(nRuns,nModels);
 %% Run sessions nRuns times and Write results out to file
-for n = 1:nModels
+for n = 2:nModels % Start at 2 because first model is inception
     for run = 1:nRuns
-        
+        model = model_name{n};
         data = [healthy;disease_data];
         Data = data(randperm(size(data,1)),:);
         X = Data(:,1:numFeats);
@@ -41,30 +44,22 @@ for n = 1:nModels
         test_x = test_data(:,1:numFeats);
         test_y = test_data(:,numFeats+1);
 
-        %% K-Nearest Neighbor Learner
-        %mdl = fitcnb(tr_x,tr_y);
         %% Ensemble Tree Learner
         %mdl = fitcensemble(tr_x,tr_y,'Method','AdaBoostM1','NumLearningCycles',150,'Learners',t,'CrossVal','on','KFold',kFolds);
         %% SVM Learner
-        mdl = fitcecoc(tr_x,tr_y,'Learners',model_name{n},'CrossVal','on','KFold',kFolds);
-        %mdl = fitcecoc(X,Y,'Learners',temp_name{n});
+        mdl = fitcecoc(tr_x,tr_y,'Learners',model,'CrossVal','on','KFold',kFolds);
         %CVMdl = crossval(mdl,'kfold',kFolds);
         %oosLoss = kfoldLoss(CVMdl,'folds',kFolds);
-        %%
+        %% Predictions
         
         for f = 1:kFolds
-            y_pred = predict(mdl.Trained{f,1},test_x);
+            y_pred = predict(mdl.Trained{f,1},test_x);  % Make predictions with each model
             acc(f,1) = sum(y_pred == test_y)/length(y_pred);
         end
         %}
-        accuracy(run,n) = mean(acc)
+        accuracy(run,n) = mean(acc) % Calculate mean classification accuracy from the 3 models
         %accuracy(run,n) = (1-oosLoss)
-        fname = 'GoogleDrive/Cassava_leaflet/matlab/results_';
-        fname = strcat(fname,model_name{n});
-        fname = strcat(fname,'.txt');
-        fid = fopen(string(fname),'a');
-        fprintf(fid, '%.2f\n', accuracy(run,n)*100);
-        fclose('all');
+        save_results(accuracy(run,n));
     end
 end
 
