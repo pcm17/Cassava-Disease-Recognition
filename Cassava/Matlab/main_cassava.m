@@ -1,5 +1,6 @@
 %% Load the bottleneck data
-%load_data_cassava;
+leaftype = 'leaflet';
+[healthy, disease] = load_data_cassava(leaftype);
 
 svm = templateSVM('Standardize',1);
 kn = templateKNN('Standardize',1);
