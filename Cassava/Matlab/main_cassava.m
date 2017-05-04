@@ -9,11 +9,12 @@ accuracy = zeros(nRuns,nModels);
 test_perc = 0.2;
 %% Load bottleneck data
 [healthy, disease] = load_data_cassava(leaf_type);
+        
+%% Run nRuns loops and write results out to file each time
 numFeats = size(disease,2)-1;
 data = [healthy;disease];
 nSamples=size(data,1);
-        
-%% Run sessions nRuns times and Write results out to file
+
 for n = 1:nModels
     for run = 1:nRuns
         model = model_name{n};
@@ -32,8 +33,9 @@ end
 color_shape = 'ko';
 plot_results (nModels,nRuns,model_name,leaf_type,accuracy,color_shape);
 
-%% Ensemble Tree Learner
+%% Extra stuff
+%%% Ensemble Tree Learner
 %mdl = fitcensemble(tr_x,tr_y,'Method','AdaBoostM1','NumLearningCycles',150,'Learners',t,'CrossVal','on','KFold',kFolds);
-%% Load results
+%%%% Load results
 accuracy = load_results_cassava (leaf_type, model_name, nRuns);
 plot_results (nModels,nRuns,model_name(1:nModels),leaf_type,accuracy(1:nModels),color_shape);
