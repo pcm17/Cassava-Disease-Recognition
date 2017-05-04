@@ -1,9 +1,9 @@
 %% Load the bottleneck data
 leaf_type = 'leaflet';
-%[healthy, disease] = load_data_cassava(leaf_type);
+[healthy, disease] = load_data_cassava(leaf_type);
 
 model_name={'inception','svm','knn','discriminant','tree'};
-%load_results_cassava (leaf_type, model_name);
+load_results_cassava (leaf_type, model_name);
 
 svm = templateSVM('Standardize',1);
 kn = templateKNN('Standardize',1);
@@ -15,8 +15,7 @@ temp_name={svm,kn,disc,dt};
 model_name={'svm','knn','discriminant','tree'};
 
 nModels=length(model_name);
-numFeats = size(disease,2)-1;
-
+numFeats = 2048;
 %nModels=1;
 nRuns=5;
 kFolds=3;
@@ -26,12 +25,11 @@ accuracy = zeros(nRuns,nModels);
 for n = 2:nModels % Start at 2 because first model is inception
     for run = 1:nRuns
         model = model_name{n};
-        data = [healthy;disease];
-        nSamples=size(data,1);
-        Data = data(randperm(nSamples),:);
+        data = [healthy;disease_data];
+        Data = data(randperm(size(data,1)),:);
         test_perc = 0.2;
         % Split data into training/test sets
-        [tr_x,tr_y,test_x,test_y] = split_data( Data, numFeats, test_perc );
+        [tr_x,tr_y,test_x,test_y] = split_data( Data, test_perc );
 
 
         %% Ensemble Tree Learner
