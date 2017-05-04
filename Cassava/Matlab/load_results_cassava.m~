@@ -1,0 +1,16 @@
+function [] = load_results_cassava (leaf_type, model_name)
+
+nModels=length(model_name);
+nRuns=5;
+accur = zeros(nRuns,nModels);
+
+for i = 1:nModels
+    model = model_name{i};
+    d = load(['Resources/' leaf_type '/results/results_files/results_' model '.txt']);
+    data(:,i) = d;
+end
+%%
+% Display Results in Plot
+plot_results (nModels,nRuns,model_name,leaf_type,accuracy,color_shape)
+
+end
