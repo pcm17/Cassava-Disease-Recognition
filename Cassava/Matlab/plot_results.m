@@ -1,9 +1,11 @@
-function [] = plot_results (nModels,nRuns,model_name,leaf_type,accuracy,color_shape)
-if length(accuracy) == length(model_name)
+function [] = plot_results (nRuns,model_name,leaf_type,accuracy,color_shape)
+if size(accuracy,2) == length(model_name)
+    nModels = length(model_name);
     x1=linspace(1,nModels,nModels);
-    x1=repmat(x1,[1,nRuns]);
+    x1=repmat(x1,[nRuns,1]);
+    x1=reshape(x1,[nRuns*nModels,1]);
     % Actually plot some stuff
-    scatter(x1,reshape(accuracy,[1,(nRuns*nModels)]),color_shape);
+    scatter(x1,reshape(accuracy,[(nRuns*nModels),1]),color_shape);
 
     % Define some plotting parameters
     x_lims = linspace(1,nModels,nModels);

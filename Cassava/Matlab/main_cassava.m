@@ -31,11 +31,10 @@ end
 
 %% Plot results
 color_shape = 'ko';
-plot_results (nModels,nRuns,model_name,leaf_type,accuracy,color_shape);
+plot_results (nRuns,model_name,leaf_type,accuracy,color_shape);
 
 %% Extra stuff
 %%% Ensemble Tree Learner
+% Want to try this to see how it compares to non-ensemble learning methods
 %mdl = fitcensemble(tr_x,tr_y,'Method','AdaBoostM1','NumLearningCycles',150,'Learners',t,'CrossVal','on','KFold',kFolds);
-%%%% Load results
-accuracy = load_results_cassava (leaf_type, model_name, nRuns);
-plot_results (nModels,nRuns,model_name(1:nModels),leaf_type,accuracy(1:nModels),color_shape);
+
