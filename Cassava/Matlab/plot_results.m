@@ -1,11 +1,17 @@
-function [] = plot_results (nSplits,model_name,leaf_type,accuracy,color_shape)
+function [] = plot_results (model_name,leaf_type,nSplits,accuracy,sz,color_shape,lgd,lgd_title)
 
     nModels = length(model_name);
-    x1=linspace(1,nModels,nModels);
-    x1=repmat(x1,[nSplits,1]);
-    x1=reshape(x1,[nSplits*nModels,1]);
+    x_axis=linspace(1,nModels,nModels);
+
     % Actually plot some stuff
-    scatter(x1,reshape(accuracy,[(nSplits*nModels),1]),color_shape);
+    for i = 1:nSplits
+        scatter(x_axis,accuracy(i,:),sz,color_shape{i},'filled');
+        plot_lgd = lgd;
+        title(plot_lgd,lgd_title)
+        hold on
+    end
+    grid on
+    
 
     % Define some plotting parameters
     x_lims = linspace(1,nModels,nModels);
@@ -15,6 +21,6 @@ function [] = plot_results (nSplits,model_name,leaf_type,accuracy,color_shape)
     ylim([70,95]);
     xlabel('Model');
     ylabel('Classification Accuracy');
-    title(['Cassava Disease Recognition with ' leaf_type]);
+    title(['Cassava Disease Recognition']);
 
 end
