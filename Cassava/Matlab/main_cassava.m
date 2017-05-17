@@ -1,5 +1,5 @@
 %% Initialize variables
-leaf_type = 'leaflet';
+leaf_type = 'original';
 % Define templates
 t_svm = templateSVM('Standardize',1);
 t_knn = templateKNN('NumNeighbors',3,'Standardize',1);
@@ -8,10 +8,10 @@ angle = 0;
 label_font_size = 16;
 cell_font_size = 14;
 % Define models and test percentages
-%model_templates={t_svm,t_knn};
-model_templates={t_knn};
-model_names={'KNN'};
-%model_names={'SVM','KNN','Inception'};
+model_templates={t_svm,t_knn};
+%model_templates={t_knn};
+%model_names={'KNN'};
+model_names={'SVM','KNN'};
 nModels=length(model_templates);
 %test_percentage = [0.4];
 test_percentage = [0.2,0.4,0.5,0.6,0.8];
