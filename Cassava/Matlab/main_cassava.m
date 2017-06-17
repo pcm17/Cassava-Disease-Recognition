@@ -1,9 +1,9 @@
 %% Initialize variables
-leaf_type = 'original';
+leaf_type = 'leaflet';
 % Define templates
 t_svm = templateSVM('Standardize',1);
 t_knn = templateKNN('NumNeighbors',3,'Standardize',1);
-classes = {'Healthy','BLS','CBSV','CMV','RMD','GMD'};
+classes = {'Healthy','BLS','CBSD','CMD','RMD','GMD'};
 angle = 0;
 label_font_size = 16;
 cell_font_size = 14;
