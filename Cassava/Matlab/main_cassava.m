@@ -1,5 +1,5 @@
 %% Initialize variables
-leaf_type = 'leaflet';
+leaf_type = 'original';
 color = hot;
 % Define templates
 t_svm = templateSVM('Standardize',1);
@@ -45,7 +45,7 @@ for n = 1:nModels
         test_predictions = predict(mdl,test_features);
         accuracy(split,n) = sum(test_predictions == test_labels)/length(test_predictions)
         %% Save Confusion Matrix and Results
-        save_results(accuracy(split,n), model_name, leaf_type );
+        %save_results(accuracy(split,n), model_name, leaf_type );
         save_confusion_matrix(test_predictions, test_labels, test_perc, leaf_type, model_name, classes, angle, label_font_size, cell_font_size, color)
     end
 end
