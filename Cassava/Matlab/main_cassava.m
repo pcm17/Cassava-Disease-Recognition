@@ -1,5 +1,6 @@
 %% Initialize variables
 leaf_type = 'leaflet';
+color = hot;
 % Define templates
 t_svm = templateSVM('Standardize',1);
 t_knn = templateKNN('NumNeighbors',3,'Standardize',1);
@@ -24,7 +25,6 @@ accuracy = zeros(nSplits,nModels);
 
 data = [healthy;disease];
 nSamples=size(data,1);
-rng(7);     % For reproducibility
 
 for n = 1:nModels
     for split = 1:nSplits
@@ -34,22 +34,19 @@ for n = 1:nModels
         % define test percentage
         test_perc = test_percentage(split);
         % Randomly permute samples 
+        rng(7);     % For reproducibility
         Data = data(randperm(nSamples),:);
         % Split data into training/test sets
         [tr_features,tr_labels,test_features,test_labels] = split_data( Data, test_perc );
         %% Train Learner
-        if n == 3
-            mdl = fitcensemble(tr_features,tr_labels,'Method','Bag','NumLearningCycles',200,'Learners',t_tree);
-        else
-            mdl = fitcecoc(tr_features,tr_labels,'Learners',model);
-        end
+        mdl = fitcecoc(tr_features,tr_labels,'Learners',model);
 
         %% Make Predictions
         test_predictions = predict(mdl,test_features);
         accuracy(split,n) = sum(test_predictions == test_labels)/length(test_predictions)
         %% Save Confusion Matrix and Results
         save_results(accuracy(split,n), model_name, leaf_type );
-        save_confusion_matrix(test_predictions, test_labels, test_perc, leaf_type, model_name, classes, angle, label_font_size, cell_font_size)
+        save_confusion_matrix(test_predictions, test_labels, test_perc, leaf_type, model_name, classes, angle, label_font_size, cell_font_size, color)
     end
 end
 
