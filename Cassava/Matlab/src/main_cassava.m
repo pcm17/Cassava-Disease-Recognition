@@ -1,5 +1,5 @@
 %% Initialize variables
-leaf_type = 'original';
+leaf_type = 'leaflet';
 color = hot;
 % Define templates
 t_svm = templateSVM('Standardize',1);
@@ -9,13 +9,13 @@ angle = 0;
 label_font_size = 16;
 cell_font_size = 14;
 % Define models and test percentages
-model_templates={t_knn,t_svm};
+model_templates={t_svm,t_knn};
 %model_templates={t_knn};
 %model_names={'KNN'};
-model_names={'KNN','SVM'};
+model_names={'SVM','KNN'};
 nModels=length(model_templates);
 %test_percentage = [0.4];
-test_percentage = [0.2,0.4,0.5,0.6,0.8];
+test_percentage = [0.1,0.3,0.4,0.5,0.7];
 nSplits=length(test_percentage);
 %% Load bottleneck data
 [healthy, disease] = load_data_cassava(leaf_type);
@@ -49,4 +49,5 @@ for n = 1:nModels
         save_confusion_matrix(test_predictions, test_labels, test_perc, leaf_type, model_name, classes, angle, label_font_size, cell_font_size, color)
     end
 end
+
 

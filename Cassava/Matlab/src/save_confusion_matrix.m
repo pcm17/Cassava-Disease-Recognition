@@ -29,5 +29,5 @@ set(gca,'FontSize',label_font_size)             % fontsize
 set(findobj(gca,'type','text'),'fontsize',cell_font_size) 
 xtickangle(angle);  ytickangle(angle)           % tick label angle
 xlabel('Predicted Label'); ylabel('True Label');    % x and y labels
-saveas(C,['../Resources/' leaf_type '/confusion_matrices/' model_name '/' model_name ' | ' num2str(test_perc*100) ' % Test'],'png')
+saveas(C,['../../Resources/' leaf_type '/confusion_matrices/' model_name '/' model_name ' | ' num2str(test_perc*100) ' % Test'],'png')
 end
