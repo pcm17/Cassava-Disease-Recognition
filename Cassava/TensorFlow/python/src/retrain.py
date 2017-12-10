@@ -181,7 +181,8 @@ def create_image_lists(image_dir, testing_percentage, validation_percentage, sma
     training_images = []
     testing_images = []
     validation_images = []
-    # Counting variables to keep track of how many images for the given small and large classes have been used
+    # N: the counting variable to keep track of the number of images in the small class
+    # M: the conting variable to keep track of the number of images in the large classes
     N = 0
     M = 0
     for file_name in file_list:
@@ -1408,7 +1409,7 @@ if __name__ == '__main__':
       '--small_class_label',
       type=str,
       default='Healthy',
-      help='Name of the class that you would like to restrict the number of images in model'
+      help='Name of the class that you would like to restrict the number of images to train model'
   )
   parser.add_argument(
       '--num_images_for_small_class',
@@ -1420,7 +1421,7 @@ if __name__ == '__main__':
       '--num_images_for_large_classes',
       type=int,
       default='10000',
-      help='Number of images to be used in the restricted class'
+      help='Number of images to be used in the non-restricted classes'
   )
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
